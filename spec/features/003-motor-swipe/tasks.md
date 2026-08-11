@@ -54,5 +54,5 @@
 
 ## Grupo 5: Integración en Proyecto Xcode
 
-- [x] **Task 5.1:** Registrar todos los nuevos archivos de la Feature 003 en `TinderCleaner.xcodeproj/project.pbxproj` en los targets `TinderCleaner` y `TinderCleanerTests`.
+- [x] **Task 5.1:** Registrar todos los nuevos archivos de la Feature 003 en `SwipeCleaner.xcodeproj/project.pbxproj` en los targets `SwipeCleaner` y `SwipeCleanerTests`.
   - *Criterio de Aceptación:* `xcodebuild build` y `xcodebuild test` compilan sin errores en CI.

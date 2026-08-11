@@ -1,7 +1,7 @@
 import Testing
 import Foundation
 import Photos
-@testable import TinderCleaner
+@testable import SwipeCleaner
 
 @Suite struct GalleryViewModelTests {
   @Test func testGalleryLoadsSyntheticAssetsInReverseChronologicalOrder() async throws {

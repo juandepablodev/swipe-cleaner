@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import TinderCleaner
+@testable import SwipeCleaner
 
 @Suite struct NetworkGuardrailTests {
   @Test func testInfoPlistDoesNotAllowArbitraryLoads() throws {
@@ -19,7 +19,7 @@ import Foundation
     let usageDescription = bundle.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription") as? String
     
     #expect(usageDescription != nil, "NSPhotoLibraryUsageDescription must be defined")
-    #expect(usageDescription == "TinderCleaner necesita acceso a tu fototeca para permitirte revisar y clasificar tus fotos y vídeos para liberar espacio localmente.")
+    #expect(usageDescription == "SwipeCleaner necesita acceso a tu fototeca para permitirte revisar y clasificar tus fotos y vídeos para liberar espacio localmente.")
   }
 
   @Test func testNetworkGuardrailIsolation() throws {

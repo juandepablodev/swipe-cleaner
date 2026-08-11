@@ -6,7 +6,7 @@
 
 ## 1. Arquitectura de Módulos
 
-El módulo `SessionPersistence` se ubica en `/codigo/TinderCleaner/Features/SessionPersistence` y consta de:
+El módulo `SessionPersistence` se ubica en `/codigo/SwipeCleaner/Features/SessionPersistence` y consta de:
 
 ```text
 SessionPersistence/
@@ -38,6 +38,6 @@ SessionPersistence/
 
 ## 3. Estrategia de Testing
 
-- Suite `SessionPersistenceTests` en `TinderCleanerTests/SessionPersistenceTests/SessionPersistenceTests.swift`.
+- Suite `SessionPersistenceTests` en `SwipeCleanerTests/SessionPersistenceTests/SessionPersistenceTests.swift`.
 - Mocks aislados con `FakeSessionPersistenceService`.
 - Validación de codificación, decodificación, borrado y reconstrucción de estado en `SwipeEngineViewModel`.

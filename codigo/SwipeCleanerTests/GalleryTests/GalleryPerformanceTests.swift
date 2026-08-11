@@ -1,5 +1,5 @@
 import XCTest
-@testable import TinderCleaner
+@testable import SwipeCleaner
 
 @MainActor
 final class GalleryPerformanceTests: XCTestCase {

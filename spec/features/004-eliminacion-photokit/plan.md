@@ -23,7 +23,7 @@ Esta feature implementa la fase final del flujo: la revisión de la sesión de c
 ## 2. Estructura de Archivos del Proyecto
 
 ```text
-codigo/TinderCleaner/
+codigo/SwipeCleaner/
 ├── Features/
 │   └── BatchDeletion/
 │       ├── Models/
@@ -42,7 +42,7 @@ codigo/TinderCleaner/
 │           └── DeletionSuccessView.swift       ← Vista de éxito y confirmación de papelera
 └── ...
 
-codigo/TinderCleanerTests/
+codigo/SwipeCleanerTests/
 └── BatchDeletionTests/
     └── SessionSummaryViewModelTests.swift      ← Tests Swift Testing con Fake (cálculo, borrado, cancelación)
 ```

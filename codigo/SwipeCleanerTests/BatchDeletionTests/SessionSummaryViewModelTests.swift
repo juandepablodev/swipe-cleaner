@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import TinderCleaner
+@testable import SwipeCleaner
 
 @Suite struct SessionSummaryViewModelTests {
   @Test func testComputeSizeFormatsBytesAndHandlesUnknownSizes() async throws {

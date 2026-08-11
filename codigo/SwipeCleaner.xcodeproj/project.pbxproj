@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A10000012C50000100000001 /* TinderCleanerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000012C50000100000002 /* TinderCleanerApp.swift */; };
+		A10000012C50000100000001 /* SwipeCleanerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000012C50000100000002 /* SwipeCleanerApp.swift */; };
 		A10000012C50000100000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10000012C50000100000004 /* Assets.xcassets */; };
 		A10000012C50000100000005 /* NetworkGuardrailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000012C50000100000006 /* NetworkGuardrailTests.swift */; };
 		A20000012C50000100000001 /* AssetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000012C50000100000011 /* AssetModel.swift */; };
@@ -59,14 +59,14 @@
 			containerPortal = A10000012C50000100000000 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = A10000012C50000100000008;
-			remoteInfo = TinderCleaner;
+			remoteInfo = SwipeCleaner;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A10000012C50000100000009 /* TinderCleaner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinderCleaner.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A10000012C5000010000000A /* TinderCleanerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TinderCleanerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A10000012C50000100000002 /* TinderCleanerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinderCleanerApp.swift; sourceTree = "<group>"; };
+		A10000012C50000100000009 /* SwipeCleaner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeCleaner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000012C5000010000000A /* SwipeCleanerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwipeCleanerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000012C50000100000002 /* SwipeCleanerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCleanerApp.swift; sourceTree = "<group>"; };
 		A10000012C5000010000000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10000012C50000100000004 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A10000012C50000100000006 /* NetworkGuardrailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkGuardrailTests.swift; sourceTree = "<group>"; };
@@ -106,11 +106,11 @@
 		A40000012C5000010000001A /* SessionSummaryContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryContainerView.swift; sourceTree = "<group>"; };
 		A40000012C5000010000001C /* SummaryItemThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryItemThumbnailView.swift; sourceTree = "<group>"; };
 		A40000012C5000010000001B /* SessionSummaryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryViewModelTests.swift; sourceTree = "<group>"; };
-		A50000012C50000100000011 /* SavedSessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinderCleaner/Features/SessionPersistence/Models/SavedSessionState.swift; sourceTree = "<group>"; };
-		A50000012C50000100000012 /* SessionPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinderCleaner/Features/SessionPersistence/Services/SessionPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
-		A50000012C50000100000013 /* SessionPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinderCleaner/Features/SessionPersistence/Services/SessionPersistenceService.swift; sourceTree = "<group>"; };
-		A50000012C50000100000014 /* FakeSessionPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinderCleaner/Features/SessionPersistence/Services/FakeSessionPersistenceService.swift; sourceTree = "<group>"; };
-		A50000012C50000100000015 /* SessionPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TinderCleanerTests/SessionPersistenceTests/SessionPersistenceTests.swift; sourceTree = "<group>"; };
+		A50000012C50000100000011 /* SavedSessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCleaner/Features/SessionPersistence/Models/SavedSessionState.swift; sourceTree = "<group>"; };
+		A50000012C50000100000012 /* SessionPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCleaner/Features/SessionPersistence/Services/SessionPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
+		A50000012C50000100000013 /* SessionPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCleaner/Features/SessionPersistence/Services/SessionPersistenceService.swift; sourceTree = "<group>"; };
+		A50000012C50000100000014 /* FakeSessionPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCleaner/Features/SessionPersistence/Services/FakeSessionPersistenceService.swift; sourceTree = "<group>"; };
+		A50000012C50000100000015 /* SessionPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCleanerTests/SessionPersistenceTests/SessionPersistenceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,26 +134,26 @@
 		A10000012C5000010000000E = {
 			isa = PBXGroup;
 			children = (
-				A10000012C5000010000000F /* TinderCleaner */,
-				A10000012C50000100000010 /* TinderCleanerTests */,
+				A10000012C5000010000000F /* SwipeCleaner */,
+				A10000012C50000100000010 /* SwipeCleanerTests */,
 				A10000012C50000100000011 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		A10000012C5000010000000F /* TinderCleaner */ = {
+		A10000012C5000010000000F /* SwipeCleaner */ = {
 			isa = PBXGroup;
 			children = (
 				A10000012C50000100000012 /* App */,
 				A20000012C50000100000020 /* Features */,
 				A10000012C50000100000013 /* Resources */,
 			);
-			path = TinderCleaner;
+			path = SwipeCleaner;
 			sourceTree = "<group>";
 		};
 		A10000012C50000100000012 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				A10000012C50000100000002 /* TinderCleanerApp.swift */,
+				A10000012C50000100000002 /* SwipeCleanerApp.swift */,
 				A10000012C5000010000000B /* Info.plist */,
 			);
 			path = App;
@@ -317,7 +317,7 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		A10000012C50000100000010 /* TinderCleanerTests */ = {
+		A10000012C50000100000010 /* SwipeCleanerTests */ = {
 			isa = PBXGroup;
 			children = (
 				A10000012C50000100000014 /* InfrastructureTests */,
@@ -325,7 +325,7 @@
 				A30000012C50000100000024 /* SwipeEngineTests */,
 				A40000012C50000100000025 /* BatchDeletionTests */,
 			);
-			path = TinderCleanerTests;
+			path = SwipeCleanerTests;
 			sourceTree = "<group>";
 		};
 		A10000012C50000100000014 /* InfrastructureTests */ = {
@@ -365,8 +365,8 @@
 		A10000012C50000100000011 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A10000012C50000100000009 /* TinderCleaner.app */,
-				A10000012C5000010000000A /* TinderCleanerTests.xctest */,
+				A10000012C50000100000009 /* SwipeCleaner.app */,
+				A10000012C5000010000000A /* SwipeCleanerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -374,9 +374,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A10000012C50000100000008 /* TinderCleaner */ = {
+		A10000012C50000100000008 /* SwipeCleaner */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A10000012C50000100000015 /* Build configuration list for PBXNativeTarget "TinderCleaner" */;
+			buildConfigurationList = A10000012C50000100000015 /* Build configuration list for PBXNativeTarget "SwipeCleaner" */;
 			buildPhases = (
 				A10000012C50000100000016 /* Sources */,
 				A10000012C5000010000000C /* Frameworks */,
@@ -386,14 +386,14 @@
 			);
 			dependencies = (
 			);
-			name = TinderCleaner;
-			productName = TinderCleaner;
-			productReference = A10000012C50000100000009 /* TinderCleaner.app */;
+			name = SwipeCleaner;
+			productName = SwipeCleaner;
+			productReference = A10000012C50000100000009 /* SwipeCleaner.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A10000012C50000100000018 /* TinderCleanerTests */ = {
+		A10000012C50000100000018 /* SwipeCleanerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A10000012C50000100000019 /* Build configuration list for PBXNativeTarget "TinderCleanerTests" */;
+			buildConfigurationList = A10000012C50000100000019 /* Build configuration list for PBXNativeTarget "SwipeCleanerTests" */;
 			buildPhases = (
 				A10000012C5000010000001A /* Sources */,
 				A10000012C5000010000000D /* Frameworks */,
@@ -404,9 +404,9 @@
 			dependencies = (
 				A10000012C5000010000001C /* PBXTargetDependency */,
 			);
-			name = TinderCleanerTests;
-			productName = TinderCleanerTests;
-			productReference = A10000012C5000010000000A /* TinderCleanerTests.xctest */;
+			name = SwipeCleanerTests;
+			productName = SwipeCleanerTests;
+			productReference = A10000012C5000010000000A /* SwipeCleanerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -428,7 +428,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A10000012C5000010000001D /* Build configuration list for PBXProject "TinderCleaner" */;
+			buildConfigurationList = A10000012C5000010000001D /* Build configuration list for PBXProject "SwipeCleaner" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -441,8 +441,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A10000012C50000100000008 /* TinderCleaner */,
-				A10000012C50000100000018 /* TinderCleanerTests */,
+				A10000012C50000100000008 /* SwipeCleaner */,
+				A10000012C50000100000018 /* SwipeCleanerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -470,7 +470,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10000012C50000100000001 /* TinderCleanerApp.swift in Sources */,
+				A10000012C50000100000001 /* SwipeCleanerApp.swift in Sources */,
 				A20000012C50000100000001 /* AssetModel.swift in Sources */,
 				A20000012C50000100000002 /* AssetLibraryChange.swift in Sources */,
 				A20000012C50000100000003 /* PhotoLibraryServiceProtocol.swift in Sources */,
@@ -528,7 +528,7 @@
 /* Begin PBXTargetDependency section */
 		A10000012C5000010000001C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A10000012C50000100000008 /* TinderCleaner */;
+			target = A10000012C50000100000008 /* SwipeCleaner */;
 			targetProxy = A10000012C50000100000007 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -662,8 +662,8 @@
 				CODE_SIGNING_REQUIRED = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = TinderCleaner/App/Info.plist;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "TinderCleaner necesita acceso a tu fototeca para permitirte revisar y clasificar tus fotos y vídeos para liberar espacio localmente.";
+				INFOPLIST_FILE = SwipeCleaner/App/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SwipeCleaner necesita acceso a tu fototeca para permitirte revisar y clasificar tus fotos y vídeos para liberar espacio localmente.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -688,8 +688,8 @@
 				CODE_SIGNING_REQUIRED = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = TinderCleaner/App/Info.plist;
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "TinderCleaner necesita acceso a tu fototeca para permitirte revisar y clasificar tus fotos y vídeos para liberar espacio localmente.";
+				INFOPLIST_FILE = SwipeCleaner/App/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SwipeCleaner necesita acceso a tu fototeca para permitirte revisar y clasificar tus fotos y vídeos para liberar espacio localmente.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -719,7 +719,7 @@
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TinderCleaner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TinderCleaner";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwipeCleaner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwipeCleaner";
 			};
 			name = Debug;
 		};
@@ -738,14 +738,14 @@
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TinderCleaner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TinderCleaner";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwipeCleaner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SwipeCleaner";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A10000012C5000010000001D /* Build configuration list for PBXProject "TinderCleaner" */ = {
+		A10000012C5000010000001D /* Build configuration list for PBXProject "SwipeCleaner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A10000012C5000010000001E /* Debug */,
@@ -754,7 +754,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A10000012C50000100000015 /* Build configuration list for PBXNativeTarget "TinderCleaner" */ = {
+		A10000012C50000100000015 /* Build configuration list for PBXNativeTarget "SwipeCleaner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A10000012C50000100000020 /* Debug */,
@@ -763,7 +763,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A10000012C50000100000019 /* Build configuration list for PBXNativeTarget "TinderCleanerTests" */ = {
+		A10000012C50000100000019 /* Build configuration list for PBXNativeTarget "SwipeCleanerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A10000012C50000100000022 /* Debug */,

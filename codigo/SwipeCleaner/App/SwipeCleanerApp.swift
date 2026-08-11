@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct TinderCleanerApp: App {
+struct SwipeCleanerApp: App {
   var body: some Scene {
     WindowGroup {
       GalleryContainerView()

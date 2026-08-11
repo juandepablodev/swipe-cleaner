@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Network Guardrail Lint Script for TinderCleaner
+# Network Guardrail Lint Script for SwipeCleaner
 # Verifies absolute privacy by ensuring zero network APIs or imports exist in the codebase.
 
 set -euo pipefail

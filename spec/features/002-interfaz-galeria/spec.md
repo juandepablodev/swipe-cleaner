@@ -3,7 +3,7 @@
 > **ID Feature:** `002-interfaz-galeria`
 > **Estado:** Especificado (v2 — corregida tras análisis de concurrencia y contratos)
 > **Versión target:** iOS 17.0+ | Swift 6.0 (`SWIFT_STRICT_CONCURRENCY = complete`, `SWIFT_TREAT_WARNINGS_AS_ERRORS = YES`)
-> **Ubicación del código:** `/codigo/TinderCleaner/Features/Gallery`
+> **Ubicación del código:** `/codigo/SwipeCleaner/Features/Gallery`
 > **Protocolo principal:** `PhotoLibraryServiceProtocol`
 > **Dependencias:** Feature 001 (CI + guardarraíl de red, invariante `isNetworkAccessAllowed = false`)
 

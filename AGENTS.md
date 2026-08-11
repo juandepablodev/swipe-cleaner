@@ -83,7 +83,7 @@ El desarrollo se rige por Spec-Driven Development (SDD):
   cuando exista acceso a un iPhone físico y macOS.
 
 Estructura de carpetas:
-TinderCleaner/
+SwipeCleaner/
 ├── .agents/
 │   └── skills/
 │       ├── github-actions/

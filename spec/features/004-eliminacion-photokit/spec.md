@@ -3,7 +3,7 @@
 > **ID Feature:** `004-eliminacion-photokit`
 > **Estado:** Especificado (v2 — corregida: Sendable, contrato SessionResult, cancelación nativa, sincronización reactiva)
 > **Versión target:** iOS 17.0+ | Swift 6.0 (`SWIFT_STRICT_CONCURRENCY = complete`, `SWIFT_TREAT_WARNINGS_AS_ERRORS = YES`)
-> **Ubicación del código:** `/codigo/TinderCleaner/Features/BatchDeletion`
+> **Ubicación del código:** `/codigo/SwipeCleaner/Features/BatchDeletion`
 > **Servicio clave:** `PhotoKitDeletionService`
 > **Dependencias:** Feature 001 (CI + lint), Feature 002 (`AssetModel`, observer de cambios, invariante `isNetworkAccessAllowed = false`), Feature 003 (contrato `SessionResult`)
 
@@ -11,7 +11,7 @@
 
 ## 1. Visión General y Objetivos
 
-Etapa final del flujo de **TinderCleaner**: revisión de la sesión de clasificación, estimación del espacio a liberar y eliminación segura por lotes con PhotoKit. Consume el `SessionResult` producido por la Feature 003 y delega la actualización del grid en el observer de cambios de la Feature 002 (fuente única de verdad).
+Etapa final del flujo de **SwipeCleaner**: revisión de la sesión de clasificación, estimación del espacio a liberar y eliminación segura por lotes con PhotoKit. Consume el `SessionResult` producido por la Feature 003 y delega la actualización del grid en el observer de cambios de la Feature 002 (fuente única de verdad).
 
 ### Objetivos Clave
 1. Pantalla de Resumen de Sesión con lista de assets `pendingDeletion` y espacio total formateado.

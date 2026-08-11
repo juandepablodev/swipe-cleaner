@@ -3,7 +3,7 @@
 > **ID Feature:** `003-motor-swipe`
 > **Estado:** Especificado (v2 — corregida: API de velocidad, atomicidad, cancelación y memoria)
 > **Versión target:** iOS 17.0+ | Swift 6.0 (`SWIFT_STRICT_CONCURRENCY = complete`, `SWIFT_TREAT_WARNINGS_AS_ERRORS = YES`)
-> **Ubicación del código:** `/codigo/TinderCleaner/Features/SwipeEngine`
+> **Ubicación del código:** `/codigo/SwipeCleaner/Features/SwipeEngine`
 > **ViewModel central:** `SwipeEngineViewModel`
 > **Dependencias:** Feature 001 (CI + lint de red), Feature 002 (`PhotoLibraryServiceProtocol`, `AssetModel`, invariante `isNetworkAccessAllowed = false`)
 
@@ -11,7 +11,7 @@
 
 ## 1. Visión General y Objetivos
 
-Núcleo de interacción de **TinderCleaner**: pila de tarjetas deslizables estilo Tinder para clasificar la galería mediante gestos o botones. Reutiliza **íntegramente** el `PhotoLibraryServiceProtocol` de la Feature 002 (manager inyectado, cancelación por `PHImageRequestID`, sin red).
+Núcleo de interacción de **SwipeCleaner**: pila de tarjetas deslizables estilo Tinder para clasificar la galería mediante gestos o botones. Reutiliza **íntegramente** el `PhotoLibraryServiceProtocol` de la Feature 002 (manager inyectado, cancelación por `PHImageRequestID`, sin red).
 
 ### Objetivos Clave
 1. Pila de tarjetas con `DragGesture`, física de muelle y overlays de intención ("CONSERVAR" verde / "ELIMINAR" rojo).

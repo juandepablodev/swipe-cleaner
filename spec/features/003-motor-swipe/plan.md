@@ -9,7 +9,7 @@
 
 ## 1. Arquitectura Técnica y Estrategia
 
-Esta feature implementa el núcleo interactivo de **TinderCleaner**: la pila de tarjetas estilo Tinder para clasificar fotos y vídeos mediante gestos de arrastre (`DragGesture`) o botones accesibles.
+Esta feature implementa el núcleo interactivo de **SwipeCleaner**: la pila de tarjetas estilo Tinder para clasificar fotos y vídeos mediante gestos de arrastre (`DragGesture`) o botones accesibles.
 
 ### Principios de Diseño
 1. **Modelos 100% `Sendable`:** `SwipeDecision`, `ClassifiedAsset` y `SessionResult` son tipos inmutables conforme a `Sendable`.
@@ -23,7 +23,7 @@ Esta feature implementa el núcleo interactivo de **TinderCleaner**: la pila de 
 ## 2. Estructura de Archivos del Proyecto
 
 ```text
-codigo/TinderCleaner/
+codigo/SwipeCleaner/
 ├── Features/
 │   └── SwipeEngine/
 │       ├── Models/
@@ -40,7 +40,7 @@ codigo/TinderCleaner/
 │           └── ActionBarView.swift             ← Botones de Deshacer, Eliminar y Conservar
 └── ...
 
-codigo/TinderCleanerTests/
+codigo/SwipeCleanerTests/
 └── SwipeEngineTests/
     └── SwipeEngineViewModelTests.swift         ← Swift Testing suite con FakePhotoLibraryService
 ```

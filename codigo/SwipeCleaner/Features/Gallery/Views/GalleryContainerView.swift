@@ -105,7 +105,7 @@ public struct GalleryContainerView: View {
           .sheet(isPresented: $showLimitedPicker) {
             NavigationStack {
               VStack(spacing: 16) {
-                Text("To manage which photos TinderCleaner can access, go to Settings.")
+                Text("To manage which photos SwipeCleaner can access, go to Settings.")
                   .multilineTextAlignment(.center)
                   .padding()
                 LimitedLibraryPickerButton()

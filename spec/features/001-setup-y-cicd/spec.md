@@ -10,7 +10,7 @@
 
 ## 1. Visión General y Objetivos
 
-El objetivo de esta feature es establecer la arquitectura base del proyecto Xcode y la infraestructura de Integración y Despliegue Continuo (CI/CD) para **TinderCleaner**. Dado que el desarrollo local se realiza en un entorno sin Xcode local (Windows), GitHub Actions actúa como el **único entorno de compilación, verificación estática y ejecución de pruebas automatizadas**.
+El objetivo de esta feature es establecer la arquitectura base del proyecto Xcode y la infraestructura de Integración y Despliegue Continuo (CI/CD) para **SwipeCleaner**. Dado que el desarrollo local se realiza en un entorno sin Xcode local (Windows), GitHub Actions actúa como el **único entorno de compilación, verificación estática y ejecución de pruebas automatizadas**.
 
 ### Objetivos Clave
 1. Inicializar la estructura del proyecto Xcode en la carpeta `/codigo` cumpliendo estrictamente con Swift 6, strict concurrency activado (`SWIFT_STRICT_CONCURRENCY = complete`) y target mínimo en iOS 17.0.
@@ -39,7 +39,7 @@ El objetivo de esta feature es establecer la arquitectura base del proyecto Xcod
 ### Criterio 1.4: Emisión del Artefacto `.ipa` Sin Firma
 - **Given** una compilación exitosa de la rama `dev` o `main`.
 - **When** se completa la etapa de empaquetado del workflow de CI.
-- **Then** el workflow genera un archivo `.ipa` comprimido (unsigned) y lo publica utilizando `actions/upload-artifact@v4` con el nombre `TinderCleaner-unsigned-ipa`.
+- **Then** el workflow genera un archivo `.ipa` comprimido (unsigned) y lo publica utilizando `actions/upload-artifact@v4` con el nombre `SwipeCleaner-unsigned-ipa`.
 
 ---
 
@@ -56,16 +56,16 @@ El objetivo de esta feature es establecer la arquitectura base del proyecto Xcod
 ### 4.1 Estructura de Directorios en `/codigo`
 ```text
 codigo/
-├── TinderCleaner.xcodeproj/
+├── SwipeCleaner.xcodeproj/
 │   └── project.pbxproj
-├── TinderCleaner/
+├── SwipeCleaner/
 │   ├── App/
-│   │   ├── TinderCleanerApp.swift       ← Entry point SwiftUI (@main)
+│   │   ├── SwipeCleanerApp.swift       ← Entry point SwiftUI (@main)
 │   │   └── Info.plist                   ← Declaraciones de permisos nativos
 │   ├── Resources/
 │   │   └── Assets.xcassets              ← AppIcon y paleta de colores nativa
 │   └── Preview Content/
-├── TinderCleanerTests/
+├── SwipeCleanerTests/
 │   ├── InfrastructureTests/
 │   │   └── NetworkGuardrailTests.swift  ← Unit test para verificar aislamiento de red
 │   └── Mocks/
@@ -74,7 +74,7 @@ codigo/
 ```
 
 ### 4.2 Configuración del Target y Build Settings
-- **Product Name:** `TinderCleaner`
+- **Product Name:** `SwipeCleaner`
 - **Bundle Identifier:** `com.tindercleaner.app`
 - **Deployment Target:** `iOS 17.0`
 - **Swift Language Version:** `Swift 6`
@@ -82,7 +82,7 @@ codigo/
   - `SWIFT_STRICT_CONCURRENCY = complete`
   - `ENABLE_HARDENED_RUNTIME = YES`
   - `ONLY_ACTIVE_ARCH = YES` (para builds de simulador en CI)
-  - `INFOPLIST_KEY_NSPhotoLibraryUsageDescription` = `"TinderCleaner necesita acceso a tu fototeca para permitirte revisar y clasificar tus fotos y vídeos para liberar espacio localmente."`
+  - `INFOPLIST_KEY_NSPhotoLibraryUsageDescription` = `"SwipeCleaner necesita acceso a tu fototeca para permitirte revisar y clasificar tus fotos y vídeos para liberar espacio localmente."`
 
 ---
 
@@ -122,8 +122,8 @@ jobs:
       - name: Build and Test (iOS Simulator)
         run: |
           xcodebuild test \
-            -project codigo/TinderCleaner.xcodeproj \
-            -scheme TinderCleaner \
+            -project codigo/SwipeCleaner.xcodeproj \
+            -scheme SwipeCleaner \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
             -resultBundlePath TestResults.xcresult \
             CODE_SIGN_IDENTITY="" \
@@ -143,8 +143,8 @@ jobs:
         run: |
           mkdir -p Payload
           xcodebuild build \
-            -project codigo/TinderCleaner.xcodeproj \
-            -scheme TinderCleaner \
+            -project codigo/SwipeCleaner.xcodeproj \
+            -scheme SwipeCleaner \
             -sdk iphoneos \
             -configuration Release \
             -derivedDataPath build/DerivedData \
@@ -152,15 +152,15 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO
           
-          cp -r build/DerivedData/Build/Products/Release-iphoneos/TinderCleaner.app Payload/
-          zip -r TinderCleaner-unsigned.ipa Payload
+          cp -r build/DerivedData/Build/Products/Release-iphoneos/SwipeCleaner.app Payload/
+          zip -r SwipeCleaner-unsigned.ipa Payload
           
       - name: Upload IPA Artifact
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: TinderCleaner-unsigned-ipa
-          path: TinderCleaner-unsigned.ipa
+          name: SwipeCleaner-unsigned-ipa
+          path: SwipeCleaner-unsigned.ipa
           retention-days: 30
 ```
 
@@ -194,4 +194,4 @@ jobs:
 La Feature `001-setup-y-cicd` se considera **completada y cerrada** únicamente cuando:
 1. Existe un push/merge en la rama `dev` o `main`.
 2. El workflow de GitHub Actions finaliza en verde (Exit Code 0).
-3. El artefacto `TinderCleaner-unsigned-ipa` está disponible para su descarga desde la ejecución del workflow.
+3. El artefacto `SwipeCleaner-unsigned-ipa` está disponible para su descarga desde la ejecución del workflow.

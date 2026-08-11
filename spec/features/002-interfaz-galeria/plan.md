@@ -23,7 +23,7 @@ Esta feature implementa el servicio de fototeca con PhotoKit y la interfaz de us
 ## 2. Estructura de Archivos del Proyecto
 
 ```text
-codigo/TinderCleaner/
+codigo/SwipeCleaner/
 ├── Features/
 │   └── Gallery/
 │       ├── Models/
@@ -42,7 +42,7 @@ codigo/TinderCleaner/
 │           └── PermissionViews.swift             ← Vistas de permiso denegado, no determinado y LimitedPicker
 └── ...
 
-codigo/TinderCleanerTests/
+codigo/SwipeCleanerTests/
 └── GalleryTests/
     ├── GalleryViewModelTests.swift               ← Tests Swift Testing con Fake (5.000 assets)
     ├── PhotoLibraryServiceInvariantTests.swift   ← Test de invariante isNetworkAccessAllowed = false

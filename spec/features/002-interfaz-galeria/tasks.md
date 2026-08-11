@@ -62,5 +62,5 @@
 
 ## Grupo 6: Integración en Xcode Project y CI
 
-- [x] **Task 6.1:** Actualizar `TinderCleaner.xcodeproj/project.pbxproj` agregando los nuevos archivos de la Feature 002 en los targets `TinderCleaner` y `TinderCleanerTests`.
+- [x] **Task 6.1:** Actualizar `SwipeCleaner.xcodeproj/project.pbxproj` agregando los nuevos archivos de la Feature 002 en los targets `SwipeCleaner` y `SwipeCleanerTests`.
   - *Criterio de Aceptación:* `xcodebuild build` y `xcodebuild test` compilan sin errores en CI.

@@ -3,7 +3,7 @@
 > **ID Feature:** `005-persistencia-sesion`
 > **Estado:** Especificado
 > **Versión target:** iOS 17.0+ | Swift 6.0 (`SWIFT_STRICT_CONCURRENCY = complete`, `SWIFT_TREAT_WARNINGS_AS_ERRORS = YES`)
-> **Ubicación del código:** `/codigo/TinderCleaner/Features/SessionPersistence`
+> **Ubicación del código:** `/codigo/SwipeCleaner/Features/SessionPersistence`
 > **Servicio clave:** `SessionPersistenceService`
 > **Dependencias:** Feature 001 (CI + lint), Feature 002 (`AssetModel`), Feature 003 (`SwipeEngineViewModel`, `ClassifiedAsset`, `SwipeDecision`)
 
@@ -11,7 +11,7 @@
 
 ## 1. Visión General y Objetivos
 
-Esta feature añade **recuperación automática y persistencia local** de las sesiones de revisión en TinderCleaner. Si el usuario cierra la aplicación a mitad de clasificar 200 fotos (o sufre una interrupción por llamada/segundo plano), el progreso no se pierde.
+Esta feature añade **recuperación automática y persistencia local** de las sesiones de revisión en SwipeCleaner. Si el usuario cierra la aplicación a mitad de clasificar 200 fotos (o sufre una interrupción por llamada/segundo plano), el progreso no se pierde.
 
 ### Objetivos Clave
 1. Guardar de forma atómica y ligera en `UserDefaults` (o archivo JSON privado en el sandbox) el estado de la sesión activa tras cada swipe/deshacer.

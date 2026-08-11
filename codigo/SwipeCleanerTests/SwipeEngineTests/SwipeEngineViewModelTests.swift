@@ -2,7 +2,7 @@ import Testing
 import Foundation
 import CoreGraphics
 import Photos
-@testable import TinderCleaner
+@testable import SwipeCleaner
 
 @Suite struct SwipeEngineViewModelTests {
   @Test func testProcessDecisionAdvancesQueueAndUpdatesHistory() async throws {

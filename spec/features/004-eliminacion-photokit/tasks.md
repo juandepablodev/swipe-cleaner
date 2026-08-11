@@ -50,5 +50,5 @@
   - Guard de atomicidad `deletionInFlight`.
   - Estimación de 500 assets sintéticos en < 200 ms.
   - *Criterio de Aceptación:* Pruebas unitarias pasan en CI.
-- [x] **Task 5.2:** Actualizar `TinderCleaner.xcodeproj/project.pbxproj` registrando todos los nuevos archivos de la Feature 004.
+- [x] **Task 5.2:** Actualizar `SwipeCleaner.xcodeproj/project.pbxproj` registrando todos los nuevos archivos de la Feature 004.
   - *Criterio de Aceptación:* `xcodebuild build` y `xcodebuild test` compilan sin errores en CI.
