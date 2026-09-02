@@ -2,6 +2,11 @@
 
 > A native iOS photo and video gallery manager engineered for high-speed media triage, 100% on-device privacy, and zero network transmission—built using Spec-Driven Development (SDD), Agentic AI Skills, and Swift 6 software engineering.
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6a3d773f-0f7d-4df1-b335-50102db14638" alt="IMG_4640" width="45%" />
+  <img src="https://github.com/user-attachments/assets/a27a44fa-ecbe-491c-90c1-23ceeac77100" alt="IMG_4641" width="45%" />
+</p>
+
 ---
 
 ## Why This Project?
