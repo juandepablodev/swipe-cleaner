@@ -33,10 +33,10 @@ Núcleo de interacción de **SwipeCleaner**: pila de tarjetas deslizables estilo
 
 ### Criterio 3.2: Ventana de Precarga (3 Tarjetas), Cancelación, Vídeo Nativo y Calidad HD
 - **Given** la tarjeta `i` en pantalla.
-- **Then** el motor pre-carga vía `photoService.requestThumbnail` imágenes en alta resolución (`.highQualityFormat` + `.exact`) de `i`, `i+1`, `i+2`, registrando cada `PHImageRequestID` mediante `onRequestID`.
-- **And** si la tarjeta activa es un vídeo (`asset.isVideo`), se solicita `requestPlayerItem` y se presenta mediante `VideoPlayerView` (`AVPlayerLayer`) reproduciéndose automáticamente en bucle con control de silencio.
+- **Then** el motor pre-carga vía `photoService.requestThumbnail` imágenes en alta resolución (`.opportunistic` con entrega progresiva y resolución final `.exact`) de `i`, `i+1`, `i+2`, registrando cada `PHImageRequestID` mediante `onRequestID`.
+- **And** si la tarjeta activa es un vídeo (`asset.isVideo`), se solicita `requestPlayerItem` y se presenta mediante `VideoPlayerView` (`AVPlayerLayer`) reproduciéndose automáticamente en bucle con control de silencio gestionado en la pila activa.
 - **And** al procesar la tarjeta `i`: se cancela su `PHImageRequestID` si sigue en vuelo, se eliminan sus entradas de `imageCache`, `playerItemCache` y `activeRequests`, y `i+3` entra en la cola.
-- **And** invariantes testeables en CI: en todo momento `imageCache.count ≤ 3` y `activeRequests.count ≤ 3`, verificados con el `FakePhotoLibraryService` tras 500 operaciones de swipe.
+- **And** invariantes testeables en CI: en todo momento `imageCache.count ≤ 3`, `playerItemCache.count ≤ 3`, `activeRequests.count ≤ 3` y `highQualityLoaded.count ≤ 3`, verificados con el `FakePhotoLibraryService` tras 500 operaciones de swipe.
 
 ### Criterio 3.3: Atomicidad de la Clasificación
 - **Given** un swipe en curso cuya animación de salida aún no ha terminado.
@@ -254,9 +254,9 @@ Al completarse la animación de salida (o el retorno por muelle), la vista invoc
 |---|---|---|
 | Fin de cola (0 pendientes) | Navega a `SessionSummaryView` | `remainingAssets.isEmpty` |
 | Swipes ultrarrápidos solapados | Segundo gesto ignorado/encolado; nunca doble clasificación | Guard `swipeInFlight` (3.3) |
-| Vídeo en tarjeta activa | Miniatura de portada + badge de duración (formateado en el ViewModel, patrón Feature 002); sin reproducción automática | `AssetModel.isVideo` |
+| Vídeo en tarjeta activa | Reproducción nativa automática en bucle con AVPlayer/VideoPlayerView, control de silencio y badge de duración en la tarjeta superior activa; la tarjeta en espera muestra miniatura | AssetModel.isVideo + VideoPlayerView |
 | Vídeo/foto solo en iCloud | Petición devuelve `nil` inmediatamente → placeholder (heredado de 002) | `isNetworkAccessAllowed = false` |
-| Undo con historial vacío | Botón deshabilitado | `disabled(historyStack.isEmpty \|\| swipeInFlight)` |
+| Undo con historial vacío | Botón deshabilitado | `disabled(historyStack.isEmpty || swipeInFlight)` |
 | Undo tras liberar imagen | Re-solicitud a la ventana de precarga con placeholder | §4.1 `undoLastDecision` |
 | App matada por iOS a mitad de sesión | Se pierde la clasificación (riesgo aceptado §3) | Documentado; checkpoint futuro |
 

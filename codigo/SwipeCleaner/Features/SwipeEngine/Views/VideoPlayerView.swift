@@ -22,7 +22,6 @@ public struct VideoPlayerView: UIViewRepresentable {
   }
 
   public static func dismantleUIView(_ uiView: PlayerUIView, coordinator: ()) {
-    uiView.playerLayer.player?.pause()
     uiView.playerLayer.player = nil
   }
 
@@ -33,6 +32,14 @@ public struct VideoPlayerView: UIViewRepresentable {
 
     var playerLayer: AVPlayerLayer {
       layer as! AVPlayerLayer
+    }
+
+    override public func layoutSubviews() {
+      super.layoutSubviews()
+      CATransaction.begin()
+      CATransaction.setDisableActions(true)
+      playerLayer.frame = bounds
+      CATransaction.commit()
     }
   }
 }

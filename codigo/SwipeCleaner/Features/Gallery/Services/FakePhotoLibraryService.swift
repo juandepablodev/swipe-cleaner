@@ -40,6 +40,9 @@ public final class FakePhotoLibraryService: PhotoLibraryServiceProtocol, @unchec
     return Array(mockAssets[range])
   }
 
+  public var mockThumbnailImage: UIImage? = UIImage()
+  public var onRequestThumbnailCalled: (@Sendable (AssetModel, (@Sendable (UIImage) -> Void)?) -> Void)? = nil
+
   public func requestThumbnail(
     for asset: AssetModel,
     targetSize: CGSize,
@@ -49,10 +52,12 @@ public final class FakePhotoLibraryService: PhotoLibraryServiceProtocol, @unchec
     let reqID = nextRequestID
     nextRequestID += 1
     onRequestID(reqID)
-    
-    // Return a dummy image
-    return UIImage()
+    onRequestThumbnailCalled?(asset, onProgressiveUpdate)
+    return mockThumbnailImage
   }
+
+  public var mockPlayerItem: AVPlayerItem? = nil
+  public var onRequestPlayerItemCalled: (@Sendable (AssetModel) -> Void)? = nil
 
   public func requestPlayerItem(
     for asset: AssetModel,
@@ -61,7 +66,8 @@ public final class FakePhotoLibraryService: PhotoLibraryServiceProtocol, @unchec
     let reqID = nextRequestID
     nextRequestID += 1
     onRequestID(reqID)
-    return nil
+    onRequestPlayerItemCalled?(asset)
+    return mockPlayerItem
   }
 
   public func cancelImageRequest(_ requestID: PHImageRequestID) {
@@ -79,6 +85,9 @@ public final class FakePhotoLibraryService: PhotoLibraryServiceProtocol, @unchec
   public func changeStream() -> AsyncStream<AssetLibraryChange> {
     AsyncStream { continuation in
       self.continuation = continuation
+      continuation.onTermination = { [weak self] _ in
+        self?.continuation = nil
+      }
     }
   }
 

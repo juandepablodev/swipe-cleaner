@@ -28,11 +28,12 @@ public final class SwipeEngineViewModel {
   var imageCache: [String: UIImage] = [:]
   var playerItemCache: [String: AVPlayerItem] = [:]
   var activeRequests: [String: PHImageRequestID] = [:]
-  private var activeVideoRequests: Set<String> = []
+  var activeVideoRequests: [String: PHImageRequestID] = [:]
+  var highQualityLoaded: Set<String> = []
 
   private let photoService: PhotoLibraryServiceProtocol
   private let persistenceService: SessionPersistenceServiceProtocol
-  public var displayTargetSize: CGSize = CGSize(width: 900, height: 1200)
+  public var displayTargetSize: CGSize = CGSize(width: 1170, height: 1950)
 
   public init(
     assets: [AssetModel],
@@ -110,7 +111,10 @@ public final class SwipeEngineViewModel {
 
   public func updateDisplayTargetSize(_ size: CGSize) {
     guard size.width > 0, size.height > 0, size != displayTargetSize else { return }
+    let oldSize = displayTargetSize
     self.displayTargetSize = size
+    let window = Array(remainingAssets.prefix(3))
+    photoService.stopCaching(for: window, targetSize: oldSize)
     preloadWindow()
   }
 
@@ -120,8 +124,12 @@ public final class SwipeEngineViewModel {
     if let requestID = activeRequests.removeValue(forKey: asset.id) {
       photoService.cancelImageRequest(requestID)
     }
-    activeVideoRequests.remove(asset.id)
+    if let videoReqID = activeVideoRequests.removeValue(forKey: asset.id) {
+      photoService.cancelImageRequest(videoReqID)
+    }
+    photoService.stopCaching(for: [asset], targetSize: displayTargetSize)
     imageCache.removeValue(forKey: asset.id)
+    highQualityLoaded.remove(asset.id)
     playerItemCache.removeValue(forKey: asset.id)
   }
 
@@ -129,14 +137,36 @@ public final class SwipeEngineViewModel {
     let window = Array(remainingAssets.prefix(3))
     let wantedIDs = Set(window.map(\.id))
 
+    // Pre-cache window in PhotoKit
+    photoService.startCaching(for: window, targetSize: displayTargetSize)
+
     // Cancel requests for assets that fell out of the prefetch window
     let currentActiveKeys = Array(activeRequests.keys)
     for id in currentActiveKeys where !wantedIDs.contains(id) {
       if let reqID = activeRequests.removeValue(forKey: id) {
         photoService.cancelImageRequest(reqID)
       }
-      activeVideoRequests.remove(id)
       imageCache.removeValue(forKey: id)
+      highQualityLoaded.remove(id)
+    }
+
+    let currentVideoKeys = Array(activeVideoRequests.keys)
+    for id in currentVideoKeys where !wantedIDs.contains(id) {
+      if let videoReqID = activeVideoRequests.removeValue(forKey: id) {
+        photoService.cancelImageRequest(videoReqID)
+      }
+      playerItemCache.removeValue(forKey: id)
+    }
+
+    // Clean cached items that fell out of window
+    let cachedImageKeys = Array(imageCache.keys)
+    for id in cachedImageKeys where !wantedIDs.contains(id) {
+      imageCache.removeValue(forKey: id)
+      highQualityLoaded.remove(id)
+    }
+
+    let cachedPlayerKeys = Array(playerItemCache.keys)
+    for id in cachedPlayerKeys where !wantedIDs.contains(id) {
       playerItemCache.removeValue(forKey: id)
     }
 
@@ -158,37 +188,49 @@ public final class SwipeEngineViewModel {
               Task { @MainActor [self] in
                 if self.activeRequests[assetID] != nil {
                   self.activeRequests[assetID] = requestID
-                } else {
+                } else if self.imageCache[assetID] == nil {
                   self.photoService.cancelImageRequest(requestID)
                 }
               }
             },
-            onProgressiveUpdate: { [weak self] highResImage in
+            onProgressiveUpdate: { [weak self] progressiveImage in
               Task { @MainActor [self] in
                 guard let self else { return }
-                self.imageCache[assetID] = highResImage
+                if !self.highQualityLoaded.contains(assetID) && (self.activeRequests[assetID] != nil || self.imageCache[assetID] == nil) {
+                  self.imageCache[assetID] = progressiveImage
+                }
               }
             }
           )
 
           self.activeRequests.removeValue(forKey: assetID)
           if let image {
+            self.highQualityLoaded.insert(assetID)
             self.imageCache[assetID] = image
           }
         }
       }
 
       // 2. Fetch AVPlayerItem for video if not cached and not already in flight
-      if asset.isVideo && playerItemCache[assetID] == nil && !activeVideoRequests.contains(assetID) {
-        activeVideoRequests.insert(assetID)
+      if asset.isVideo && playerItemCache[assetID] == nil && activeVideoRequests[assetID] == nil {
+        activeVideoRequests[assetID] = PHInvalidImageRequestID
 
         Task { @MainActor [weak self, photoService] in
           guard let self else { return }
           let item = await photoService.requestPlayerItem(
             for: asset,
-            onRequestID: { _ in }
+            onRequestID: { [weak self] requestID in
+              guard let self else { return }
+              Task { @MainActor [self] in
+                if self.activeVideoRequests[assetID] != nil {
+                  self.activeVideoRequests[assetID] = requestID
+                } else if self.playerItemCache[assetID] == nil {
+                  self.photoService.cancelImageRequest(requestID)
+                }
+              }
+            }
           )
-          self.activeVideoRequests.remove(assetID)
+          self.activeVideoRequests.removeValue(forKey: assetID)
           if let item {
             self.playerItemCache[assetID] = item
           }

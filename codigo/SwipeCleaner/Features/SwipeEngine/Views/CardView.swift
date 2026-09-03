@@ -4,26 +4,29 @@ import AVFoundation
 struct CardView: View {
   let asset: AssetModel
   let image: UIImage?
-  let playerItem: AVPlayerItem?
+  let player: AVPlayer?
   let isTopCard: Bool
   let dragOffset: CGSize
-
-  @State private var player: AVPlayer?
-  @State private var isMuted: Bool = true
+  let isMuted: Bool
+  let onToggleMute: () -> Void
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   public init(
     asset: AssetModel,
     image: UIImage?,
-    playerItem: AVPlayerItem? = nil,
+    player: AVPlayer? = nil,
     isTopCard: Bool,
-    dragOffset: CGSize
+    dragOffset: CGSize,
+    isMuted: Bool = true,
+    onToggleMute: @escaping () -> Void = {}
   ) {
     self.asset = asset
     self.image = image
-    self.playerItem = playerItem
+    self.player = player
     self.isTopCard = isTopCard
     self.dragOffset = dragOffset
+    self.isMuted = isMuted
+    self.onToggleMute = onToggleMute
   }
 
   var body: some View {
@@ -36,24 +39,29 @@ struct CardView: View {
           ZStack(alignment: .center) {
             // Media Content (Video or Image)
             if asset.isVideo && isTopCard, let player {
-              VideoPlayerView(player: player)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .padding(8)
-                .overlay(alignment: .bottomLeading) {
-                  Button {
-                    isMuted.toggle()
-                    player.isMuted = isMuted
-                  } label: {
-                    Image(systemName: isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
-                      .font(.body.bold())
-                      .foregroundStyle(.white)
-                      .padding(10)
-                      .background(.ultraThinMaterial)
-                      .clipShape(Circle())
-                  }
-                  .padding(20)
+              ZStack {
+                if let image {
+                  Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
+                VideoPlayerView(player: player)
+                  .frame(maxWidth: .infinity, maxHeight: .infinity)
+              }
+              .clipShape(RoundedRectangle(cornerRadius: 20))
+              .padding(8)
+              .overlay(alignment: .bottomLeading) {
+                Button(action: onToggleMute) {
+                  Image(systemName: isMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                    .font(.body.bold())
+                    .foregroundStyle(.white)
+                    .padding(10)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+                }
+                .padding(20)
+              }
             } else if let image {
               Image(uiImage: image)
                 .resizable()
@@ -136,49 +144,5 @@ struct CardView: View {
     }
     .rotationEffect(reduceMotion ? .zero : .degrees(Double(dragOffset.width / 20.0)))
     .offset(x: dragOffset.width, y: dragOffset.height)
-    .onChange(of: playerItem) { _, newItem in
-      setupPlayer(with: newItem)
-    }
-    .onChange(of: isTopCard) { _, newIsTopCard in
-      if newIsTopCard {
-        player?.play()
-      } else {
-        player?.pause()
-      }
-    }
-    .onAppear {
-      if let playerItem {
-        setupPlayer(with: playerItem)
-      }
-    }
-    .onDisappear {
-      player?.pause()
-      player = nil
-    }
-  }
-
-  private func setupPlayer(with item: AVPlayerItem?) {
-    guard let item else {
-      player?.pause()
-      player = nil
-      return
-    }
-    let newPlayer = AVPlayer(playerItem: item)
-    newPlayer.isMuted = isMuted
-    newPlayer.actionAtItemEnd = .none
-    
-    NotificationCenter.default.addObserver(
-      forName: .AVPlayerItemDidPlayToEndTime,
-      object: item,
-      queue: .main
-    ) { _ in
-      newPlayer.seek(to: .zero)
-      newPlayer.play()
-    }
-    
-    self.player = newPlayer
-    if isTopCard {
-      newPlayer.play()
-    }
   }
 }

@@ -56,3 +56,16 @@
 
 - [x] **Task 5.1:** Registrar todos los nuevos archivos de la Feature 003 en `SwipeCleaner.xcodeproj/project.pbxproj` en los targets `SwipeCleaner` y `SwipeCleanerTests`.
   - *Criterio de Aceptación:* `xcodebuild build` y `xcodebuild test` compilan sin errores en CI.
+
+---
+
+## Grupo 6: Calidad HD Progresiva y Reproducción Centralizada de Vídeo
+
+- [x] **Task 6.1:** Configurar entrega `.opportunistic` y `.exact` en `PhotoLibraryService.requestThumbnail` con actualización progresiva y guard `highQualityLoaded` en `SwipeEngineViewModel`.
+  - *Criterio de Aceptación:* La vista previa se entrega inmediatamente (~5-10ms) y la resolución HD final no se sobreescribe por callbacks tardíos.
+- [x] **Task 6.2:** Centralizar la instancia única de `AVPlayer` en `CardStackView`, dejando las tarjetas en espera con solo miniatura y evitando colisiones de `AVPlayerItem`.
+  - *Criterio de Aceptación:* Los vídeos se reproducen automáticamente en bucle sin parpadeos y sin estados fallidos de `AVPlayerItem`.
+- [x] **Task 6.3:** Sincronizar dimensiones de capa en `VideoPlayerView.PlayerUIView.layoutSubviews()` y desacoplar de forma segura en `dismantleUIView`.
+  - *Criterio de Aceptación:* Cero frames desincronizados y sin interrupción prematura del pipeline de reproducción al arrastrar.
+- [x] **Task 6.4:** Añadir pruebas unitarias para entrega progresiva, precarga y desalojo de vídeo, y robustez frente a assets no locales de iCloud.
+  - *Criterio de Aceptación:* Tests pasan y las invariantes de memoria permanecen $\le 3$.
