@@ -3,6 +3,7 @@ import Foundation
 import CoreGraphics
 import Photos
 import AVFoundation
+import UIKit
 @testable import SwipeCleaner
 
 @Suite struct SwipeEngineViewModelTests {
