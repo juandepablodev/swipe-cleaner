@@ -122,14 +122,21 @@ import UIKit
     )
 
     // Allow the initial preload Task to run and deliver the high-quality image
-    try await Task.sleep(nanoseconds: 50_000_000)
+    for _ in 0..<50 {
+      if viewModel.highQualityLoaded.contains("progressive-test-asset") { break }
+      await Task.yield()
+      try await Task.sleep(nanoseconds: 20_000_000)
+    }
 
     #expect(viewModel.highQualityLoaded.contains("progressive-test-asset"))
     #expect(viewModel.image(for: asset) === highQualityImage)
 
     // Simulate a late, out-of-order progressive update
     callbackBox.invoke(with: degradedImage)
-    try await Task.sleep(nanoseconds: 50_000_000)
+    for _ in 0..<20 {
+      await Task.yield()
+      try await Task.sleep(nanoseconds: 10_000_000)
+    }
 
     // High-quality image must remain intact in cache
     #expect(viewModel.image(for: asset) === highQualityImage)
@@ -189,7 +196,11 @@ import UIKit
     #expect(viewModel.currentAsset?.isVideo == true)
 
     // Allow preload Task to populate cache
-    try await Task.sleep(nanoseconds: 50_000_000)
+    for _ in 0..<50 {
+      if viewModel.playerItem(for: videoAsset) != nil { break }
+      await Task.yield()
+      try await Task.sleep(nanoseconds: 20_000_000)
+    }
     #expect(viewModel.playerItem(for: videoAsset) === mockItem, "Preloaded video player item must be present in cache")
 
     // Swipe away the video
@@ -245,7 +256,11 @@ import UIKit
       persistenceService: FakeSessionPersistenceService()
     )
 
-    try await Task.sleep(nanoseconds: 50_000_000)
+    for _ in 0..<50 {
+      if viewModel.activeRequests["icloud-asset-nil"] == nil { break }
+      await Task.yield()
+      try await Task.sleep(nanoseconds: 20_000_000)
+    }
 
     #expect(viewModel.image(for: asset) == nil)
     #expect(viewModel.activeRequests["icloud-asset-nil"] == nil)
@@ -277,7 +292,11 @@ import UIKit
       persistenceService: FakeSessionPersistenceService()
     )
 
-    try await Task.sleep(nanoseconds: 50_000_000)
+    for _ in 0..<50 {
+      if viewModel.activeVideoRequests["icloud-video-nil"] == nil { break }
+      await Task.yield()
+      try await Task.sleep(nanoseconds: 20_000_000)
+    }
 
     #expect(viewModel.playerItem(for: videoAsset) == nil)
     #expect(viewModel.activeVideoRequests["icloud-video-nil"] == nil)

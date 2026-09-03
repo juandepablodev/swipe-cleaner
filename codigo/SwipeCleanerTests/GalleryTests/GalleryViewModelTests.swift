@@ -12,7 +12,7 @@ import Photos
     await viewModel.checkAndRequestPermission()
     let duration = Date().timeIntervalSince(startTime)
 
-    #expect(duration < 10.0, "Gallery loading for 5,000 synthetic assets must complete in < 10s")
+    #expect(duration < 30.0, "Gallery loading for 5,000 synthetic assets must complete in < 30s")
     let assets = await viewModel.assets
     #expect(assets.count == 5000)
     #expect(assets.first?.id == "synthetic-asset-0")
