@@ -78,6 +78,24 @@ import UIKit
 
   @MainActor
   @Test func testProgressiveUpdateDoesNotOverwriteHighQualityImage() async throws {
+    final class CallbackBox: @unchecked Sendable {
+      private let lock = NSLock()
+      private var callback: (@Sendable (UIImage) -> Void)?
+
+      func set(_ cb: (@Sendable (UIImage) -> Void)?) {
+        lock.lock()
+        defer { lock.unlock() }
+        callback = cb
+      }
+
+      func invoke(with image: UIImage) {
+        lock.lock()
+        let cb = callback
+        lock.unlock()
+        cb?(image)
+      }
+    }
+
     let fakeService = FakePhotoLibraryService(authorizationStatus: .authorized, assetCount: 0)
     let asset = AssetModel(
       id: "progressive-test-asset",
@@ -91,10 +109,10 @@ import UIKit
     let highQualityImage = UIImage()
     let degradedImage = UIImage()
 
-    var savedProgressiveCallback: (@Sendable (UIImage) -> Void)?
+    let callbackBox = CallbackBox()
     fakeService.mockThumbnailImage = highQualityImage
     fakeService.onRequestThumbnailCalled = { requestedAsset, onProgressiveUpdate in
-      savedProgressiveCallback = onProgressiveUpdate
+      callbackBox.set(onProgressiveUpdate)
     }
 
     let viewModel = SwipeEngineViewModel(
@@ -110,7 +128,7 @@ import UIKit
     #expect(viewModel.image(for: asset) === highQualityImage)
 
     // Simulate a late, out-of-order progressive update
-    savedProgressiveCallback?(degradedImage)
+    callbackBox.invoke(with: degradedImage)
     try await Task.sleep(nanoseconds: 50_000_000)
 
     // High-quality image must remain intact in cache
