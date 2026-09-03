@@ -11,7 +11,7 @@ public final class GalleryViewModel {
   public var errorMessage: String? = nil
 
   private let photoService: PhotoLibraryServiceProtocol
-  nonisolated(unsafe) private var changeTask: Task<Void, Never>?
+  nonisolated private var changeTask: Task<Void, Never>?
 
   public init(photoService: PhotoLibraryServiceProtocol) {
     self.photoService = photoService

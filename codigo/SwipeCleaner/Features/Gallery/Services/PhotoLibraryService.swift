@@ -61,6 +61,10 @@ public final class PhotoLibraryService: NSObject, PhotoLibraryServiceProtocol, @
     onRequestID: @Sendable (PHImageRequestID) -> Void,
     onProgressiveUpdate: (@Sendable (UIImage) -> Void)? = nil
   ) async -> UIImage? {
+    if Task.isCancelled {
+      return nil
+    }
+
     let result = getOrFetchResult()
     guard let phAsset = fetchPHAsset(with: asset.id, in: result) else {
       return nil
@@ -72,11 +76,10 @@ public final class PhotoLibraryService: NSObject, PhotoLibraryServiceProtocol, @
     options.resizeMode = .exact
     options.isSynchronous = false
 
-    let state = RequestState<UIImage>()
+    let state = RequestState()
 
     return await withTaskCancellationHandler {
       await withCheckedContinuation { continuation in
-        state.setContinuation(continuation)
         let reqID = imageManager.requestImage(
           for: phAsset,
           targetSize: targetSize,
@@ -91,10 +94,14 @@ public final class PhotoLibraryService: NSObject, PhotoLibraryServiceProtocol, @
                 onProgressiveUpdate?(image)
               }
             } else {
-              state.resumeOnce(with: image)
+              if state.tryResume() {
+                continuation.resume(returning: image)
+              }
             }
           } else {
-            state.resumeOnce(with: nil)
+            if state.tryResume() {
+              continuation.resume(returning: nil)
+            }
           }
         }
         if state.setRequestID(reqID) {
@@ -103,7 +110,7 @@ public final class PhotoLibraryService: NSObject, PhotoLibraryServiceProtocol, @
         onRequestID(reqID)
       }
     } onCancel: {
-      if let reqID = state.cancel() {
+      if let reqID = state.markCancelled() {
         imageManager.cancelImageRequest(reqID)
       }
     }
@@ -113,6 +120,10 @@ public final class PhotoLibraryService: NSObject, PhotoLibraryServiceProtocol, @
     for asset: AssetModel,
     onRequestID: @Sendable (PHImageRequestID) -> Void
   ) async -> AVPlayerItem? {
+    if Task.isCancelled {
+      return nil
+    }
+
     let result = getOrFetchResult()
     guard let phAsset = fetchPHAsset(with: asset.id, in: result) else {
       return nil
@@ -123,19 +134,22 @@ public final class PhotoLibraryService: NSObject, PhotoLibraryServiceProtocol, @
     options.deliveryMode = .automatic
     options.version = .current
 
-    let state = RequestState<AVPlayerItem>()
+    let state = RequestState()
 
     return await withTaskCancellationHandler {
       await withCheckedContinuation { continuation in
-        state.setContinuation(continuation)
         let reqID = imageManager.requestPlayerItem(forVideo: phAsset, options: options) { playerItem, info in
           let isCancelled = (info?[PHImageCancelledKey] as? Bool) ?? false
           let isError = info?[PHImageErrorKey] != nil
 
           if let playerItem, !isCancelled && !isError {
-            state.resumeOnce(with: playerItem)
+            if state.tryResume() {
+              continuation.resume(returning: playerItem)
+            }
           } else {
-            state.resumeOnce(with: nil)
+            if state.tryResume() {
+              continuation.resume(returning: nil)
+            }
           }
         }
         if state.setRequestID(reqID) {
@@ -144,7 +158,7 @@ public final class PhotoLibraryService: NSObject, PhotoLibraryServiceProtocol, @
         onRequestID(reqID)
       }
     } onCancel: {
-      if let reqID = state.cancel() {
+      if let reqID = state.markCancelled() {
         imageManager.cancelImageRequest(reqID)
       }
     }
@@ -272,10 +286,9 @@ private extension PHAsset {
   }
 }
 
-private final class RequestState<T>: @unchecked Sendable {
+private final class RequestState: @unchecked Sendable {
   private let lock = NSLock()
   private var requestID: PHImageRequestID?
-  private var continuation: CheckedContinuation<T?, Never>?
   private var hasResumed = false
   private var isCancelled = false
 
@@ -285,26 +298,24 @@ private final class RequestState<T>: @unchecked Sendable {
     return hasResumed
   }
 
-  func setContinuation(_ continuation: CheckedContinuation<T?, Never>) {
+  /// Atomically marks the continuation as resumed. Returns true ONLY on the first caller.
+  func tryResume() -> Bool {
     lock.lock()
-    if isCancelled || hasResumed {
-      hasResumed = true
-      lock.unlock()
-      continuation.resume(returning: nil)
-      return
+    defer { lock.unlock() }
+    if hasResumed {
+      return false
     }
-    self.continuation = continuation
-    lock.unlock()
+    hasResumed = true
+    return true
   }
 
-  /// Sets the requestID. Returns true if the request was already cancelled and should be aborted immediately.
+  /// Sets the requestID. Returns true if the request was already cancelled.
   @discardableResult
   func setRequestID(_ id: PHImageRequestID) -> Bool {
     lock.lock()
+    defer { lock.unlock() }
     requestID = id
-    let cancelled = isCancelled
-    lock.unlock()
-    return cancelled
+    return isCancelled
   }
 
   func getRequestID() -> PHImageRequestID? {
@@ -313,36 +324,13 @@ private final class RequestState<T>: @unchecked Sendable {
     return requestID
   }
 
-  func resumeOnce(with value: T?) {
-    lock.lock()
-    guard !hasResumed else {
-      lock.unlock()
-      return
-    }
-    hasResumed = true
-    let cont = continuation
-    continuation = nil
-    lock.unlock()
-
-    cont?.resume(returning: value)
-  }
-
-  /// Marks request cancelled, resumes any pending continuation with nil, and returns the requestID if set.
+  /// Marks cancelled and returns the requestID if set.
   @discardableResult
-  func cancel() -> PHImageRequestID? {
+  func markCancelled() -> PHImageRequestID? {
     lock.lock()
+    defer { lock.unlock() }
     isCancelled = true
-    let reqID = requestID
-    guard !hasResumed, let cont = continuation else {
-      lock.unlock()
-      return reqID
-    }
-    hasResumed = true
-    continuation = nil
-    lock.unlock()
-
-    cont.resume(returning: nil)
-    return reqID
+    return requestID
   }
 }
 
